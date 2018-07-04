@@ -92,6 +92,9 @@ public class Console {
 				companyDAO.updateCompany(co);
 				
 				System.out.println("사용자 정보를 수정했습니다.");
+				System.out.println(co.getCom_name()+"님 아래는 변경된 정보입니다.");
+				System.out.println("변경된"+ co.getCom_name()+"님의 전화번호:"+co.getCom_tel());
+				System.out.println("변경된 "+co.getCom_name()+"님의 회사명:"+co.getCompany());
 			}else {
 				System.out.println("사용자를 찾지못했습니다.");
 			}
