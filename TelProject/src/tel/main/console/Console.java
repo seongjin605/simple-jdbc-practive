@@ -1,12 +1,13 @@
 package tel.main.console;
 
 import java.util.Scanner;
+import tel.db.dao.CompanyDAO;
+import tel.db.dao.CompanyDAOImpl;
 import tel.db.dto.CompanyDTO;
-import tel.handler.sql.CompanyHandler;
 
 public class Console {
 
-	private static CompanyHandler companyDAO = new CompanyHandler();
+	private static CompanyDAO companyDAO = new CompanyDAOImpl();
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int a = 1, b = 2, c = 3, d = 4, e = 5;//
@@ -37,7 +38,7 @@ public class Console {
 			sc.nextLine();
 
 			CompanyDTO c_dto = new CompanyDTO(insertName, insertTel, insertCom);
-			companyDAO.insertCompanyl(c_dto);
+			companyDAO.insertCompany(c_dto);
 
 		}
 

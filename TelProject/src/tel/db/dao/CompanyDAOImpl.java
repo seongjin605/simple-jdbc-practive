@@ -1,17 +1,20 @@
-package tel.handler.sql;
+package tel.db.dao;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import tel.db.dto.CompanyDTO;
 import tel.get.dbconnect.DbConnection;
 
-public class CompanyHandler {
-
+public class CompanyDAOImpl implements CompanyDAO {
 	private PreparedStatement pstm = null;
 	private ResultSet rs = null;
 	private String sql = "";
 	private CompanyDTO company = null;
 
-	public CompanyDTO selectCompany(String com_name){
+	@Override
+	public CompanyDTO selectCompany(String com_name) {
 		sql = "select*from company where com_name=?";
 		try {
 			pstm = DbConnection.getInstance().prepareStatement(sql);
@@ -22,18 +25,19 @@ public class CompanyHandler {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 		}
 
 		return company;
 	}
 
-	public boolean insertCompanyl(CompanyDTO company) {
+	@Override
+	public boolean insertCompany(CompanyDTO company) {
 		sql = "insert into company values(?,?,?)";
 		boolean check = false;
 		try {
 			DbConnection.getInstance().setAutoCommit(false);
-			pstm =  DbConnection.getInstance().prepareStatement(sql);
+			pstm = DbConnection.getInstance().prepareStatement(sql);
 
 			pstm.setString(1, company.getCom_name());
 			pstm.setString(2, company.getCom_tel());
@@ -51,10 +55,11 @@ public class CompanyHandler {
 		return check;
 	}
 
+	@Override
 	public void deleteCompany(String com_name) {
 		sql = "delete from company where com_name=?";
 		try {
-			pstm =  DbConnection.getInstance().prepareStatement(sql);
+			pstm = DbConnection.getInstance().prepareStatement(sql);
 			pstm.setString(1, com_name);
 			pstm.executeUpdate();
 			System.out.println("deleteCompany() 성공");
@@ -63,11 +68,13 @@ public class CompanyHandler {
 			System.out.println("DeleteCompany() 실패=" + e);
 		}
 	}
-	
+
+	@Override
 	public void updateCompany(CompanyDTO companyDTO) {
+		// TODO Auto-generated method stub
 		sql = "update company set com_tel=?, company=? where com_name=?";
 		try {
-			pstm =  DbConnection.getInstance().prepareStatement(sql);
+			pstm = DbConnection.getInstance().prepareStatement(sql);
 			pstm.setString(1, companyDTO.getCom_tel());
 			pstm.setString(2, companyDTO.getCompany());
 			pstm.setString(3, companyDTO.getCom_name());
@@ -79,9 +86,10 @@ public class CompanyHandler {
 		}
 	}
 
+	@Override
 	public CompanyDTO getDataFromResultSet(ResultSet rs) throws SQLException {
+		// TODO Auto-generated method stub
 		CompanyDTO company = new CompanyDTO(rs.getString("com_name"), rs.getString("com_tel"), rs.getString("company"));
 		return company;
 	}
-
 }
