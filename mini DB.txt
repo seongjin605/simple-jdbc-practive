@@ -1,0 +1,24 @@
+create table univ(
+univ_name varchar2(10) not null,
+univ_tel varchar2(15) primary key,
+major varchar2(15) not null,
+year number(3) not null
+);
+
+create table company(
+com_name varchar2(10) not null,
+com_tel varchar2(15) primary key,
+company varchar2(15) not null
+);
+
+create table general(
+g_name varchar2(10) not null,
+g_tel varchar2(15) primary key,
+address varchar2(25) not null
+);
+
+insert into univ(univ_name,univ_tel,major,year) values('한영숙','010-9999-8888','컴퓨터공학',3);
+
+insert into company(com_name,com_tel,company) values('윤지숙','010-7777-9999','SUN MICRO SYS.');
+
+insert into general(g_name,g_tel,address) values('박성진','010-6897-6897','서울시 강남구');
