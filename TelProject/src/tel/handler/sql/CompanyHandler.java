@@ -1,71 +1,83 @@
 package tel.handler.sql;
 
 import java.sql.*;
-
-import tel.connection.memory.DBConnectionMgr;
 import tel.db.dto.CompanyDTO;
-import tel.db.dto.GeneralDTO;
+import tel.get.dbconnect.DbConnection;
 
 public class CompanyHandler {
-	private static Connection conn = null;
-	private static PreparedStatement pstm = null;
-	private static ResultSet rs = null;
-	private static String sql = "";
-	private CompanyDTO company = null;
-	private DBConnectionMgr pool = null;
 
-	public CompanyDTO SelectCompany(Connection conn,String com_name){
-	 sql="select*from company where com_name=?";
-	 
-	 try{
-		 pstm=conn.prepareStatement(sql);
-		 pstm.setString(1, com_name);
-		rs= pstm.executeQuery();
-		 while(rs.next()){
-			 company=getDataFromResultSet(rs);
-		 }
-		
-	 }catch(Exception e){
-		 e.printStackTrace();
-	 }
-	 
-	 return company;
- }
-	public boolean InsertCompanyl(CompanyDTO company){
-		sql="insert into company values(?,?,?)";
-		boolean check=false;
-		try{
-			conn.setAutoCommit(false);//conn.setAutoCOmmit(true); default°ªÀÓ
-			pstm=conn.prepareStatement(sql);
-			
-			pstm.setString(1, company.getCom_name());			
+	private PreparedStatement pstm = null;
+	private ResultSet rs = null;
+	private String sql = "";
+	private CompanyDTO company = null;
+
+	public CompanyDTO selectCompany(String com_name){
+		sql = "select*from company where com_name=?";
+		try {
+			pstm = DbConnection.getInstance().prepareStatement(sql);
+			pstm.setString(1, com_name);
+			rs = pstm.executeQuery();
+			while (rs.next()) {
+				company = getDataFromResultSet(rs);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+		}
+
+		return company;
+	}
+
+	public boolean insertCompanyl(CompanyDTO company) {
+		sql = "insert into company values(?,?,?)";
+		boolean check = false;
+		try {
+			DbConnection.getInstance().setAutoCommit(false);
+			pstm =  DbConnection.getInstance().prepareStatement(sql);
+
+			pstm.setString(1, company.getCom_name());
 			pstm.setString(2, company.getCom_tel());
 			pstm.setString(3, company.getCompany());
-			
-			int insert=pstm.executeUpdate();//°ªÀÌ µé¾î°¡¸é ¹ÝÈ¯°ª1(¼º°ø), ¾øÀ¸¸é ¹ÝÈ¯°ª 0(½ÇÆÐ)
-			conn.commit();
-			if(insert>0) {
-				
-				check=true;
+
+			int insert = pstm.executeUpdate();
+			DbConnection.getInstance().commit();
+			if (insert > 0) {
+				System.out.println("insertCompany() ì„±ê³µ");
+				check = true;
 			}
-		}catch(Exception e){
-			System.out.println("InsertCompany() ¸Þ¼­µå ¿À·ù="+e);
+		} catch (Exception e) {
+			System.out.println("insertCompany() ì‹¤íŒ¨=" + e);
 		}
 		return check;
 	}
-public void DeleteCompany(Connection conn,String com_name){
-	sql="delete from company where com_name=?";
-	
-	try{
-		pstm=conn.prepareStatement(sql);
-		pstm.setString(1, com_name);
-		pstm.executeUpdate();
-		System.out.println("µ¥ÀÌÅÍ »èÁ¦°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
-	
-	}catch(Exception e){
-		System.out.println("DeleteCompany() ¸Þ¼­µå ¿À·ù="+e);
+
+	public void deleteCompany(String com_name) {
+		sql = "delete from company where com_name=?";
+		try {
+			pstm =  DbConnection.getInstance().prepareStatement(sql);
+			pstm.setString(1, com_name);
+			pstm.executeUpdate();
+			System.out.println("deleteCompany() ì„±ê³µ");
+
+		} catch (Exception e) {
+			System.out.println("DeleteCompany() ì‹¤íŒ¨=" + e);
+		}
 	}
-}
+	
+	public void updateCompany(CompanyDTO companyDTO) {
+		sql = "update company set com_tel=?, company=? where com_name=?";
+		try {
+			pstm =  DbConnection.getInstance().prepareStatement(sql);
+			pstm.setString(1, companyDTO.getCom_tel());
+			pstm.setString(2, companyDTO.getCompany());
+			pstm.setString(3, companyDTO.getCom_name());
+			pstm.executeUpdate();
+			System.out.println("updateCompany() ì„±ê³µ");
+
+		} catch (Exception e) {
+			System.out.println("updateCompany() ì‹¤íŒ¨=" + e);
+		}
+	}
 
 	public CompanyDTO getDataFromResultSet(ResultSet rs) throws SQLException {
 		CompanyDTO company = new CompanyDTO(rs.getString("com_name"), rs.getString("com_tel"), rs.getString("company"));

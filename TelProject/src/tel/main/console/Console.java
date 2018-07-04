@@ -1,158 +1,104 @@
 package tel.main.console;
 
-import java.sql.Connection;
 import java.util.Scanner;
-
 import tel.db.dto.CompanyDTO;
-import tel.db.dto.GeneralDTO;
-import tel.db.dto.UnivDTO;
-import tel.get.dbconnect.DBconnect;
 import tel.handler.sql.CompanyHandler;
-import tel.handler.sql.GeneralHandler;
-import tel.handler.sql.UnivHandler;
 
 public class Console {
 
-	private static GeneralHandler generalDAO = new GeneralHandler();
-	private static UnivHandler univDAO = new UnivHandler();
 	private static CompanyHandler companyDAO = new CompanyHandler();
-	private static DBconnect DBC = new DBconnect();
-	private static UnivDTO u_name = null;
-	private static CompanyDTO c_name = null;
-
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int a = 1, b = 2, c = 3, d = 4;// 1.µ¥ÀÌÅÍ ÀÔ·Â 2.°Ë»ö 3.»èÁ¦ 4.Á¾·á
+		int a = 1, b = 2, c = 3, d = 4, e = 5;//
 		int choice;
 
 		Scanner sc = new Scanner(System.in);
-		System.out.println("¼±ÅÃÇÏ¼¼¿ä...");
-		System.out.println(a + ".µ¥ÀÌÅÍ ÀÔ·Â");
-		System.out.println(b + ".µ¥ÀÌÅÍ °Ë»ö");
-		System.out.println(c + ".µ¥ÀÌÅÍ »èÁ¦");
-		System.out.println(d + ".µ¥ÀÌÅÍ Á¾·á");
-		System.out.println("¼±ÅÃ:");
+		System.out.println("ì„ íƒí•˜ì„¸ìš”...");
+		System.out.println(a + ".ë°ì´í„° ì‚½ì…");
+		System.out.println(b + ".ë°ì´í„° ê²€ìƒ‰");
+		System.out.println(c + ".ë°ì´í„°  ì‚­ì œ");
+		System.out.println(d + ".ë°ì´í„° ìˆ˜ì •");
+		System.out.println(e + ".í”„ë¡œê·¸ë¨ ì¢…ë£Œ");
 		choice = sc.nextInt();
 
-		if (choice == a) {// ÀÔ·Â
-			System.out.println("µ¥ÀÌÅÍ ÀÔ·ÂÀ» ½ÃÀÛÇÕ´Ï´Ù.");
-			System.out.println("1.ÀÏ¹İ 2.´ëÇĞ 3.È¸»ç");
-			System.out.println("¼±ÅÃ:");
-			int insertChoice=sc.nextInt();
-			
-			if(insertChoice==1){
-				System.out.println("ÀÌ¸§:");
-				sc.nextLine();
-				String insertName = sc.nextLine();
-				
-				System.out.println("ÀüÈ­¹øÈ£:");
-				sc.nextLine();
-				String insertTel = sc.nextLine();
-				
-				System.out.println("ÁÖ¼Ò:");
-				sc.nextLine();
-				String insertAddr = sc.nextLine();
-				
-				GeneralDTO g_dto = new GeneralDTO(insertName, insertTel, insertAddr);
-				generalDAO.InsertGeneral(g_dto);
-			
-			}
-			else if(insertChoice==2){
-				System.out.println("ÀÌ¸§:");
-				sc.nextLine();
-				String insertName = sc.nextLine();
-				
-				System.out.println("ÀüÈ­¹øÈ£:");
-				sc.nextLine();
-				String insertTel = sc.nextLine();
-				
-				System.out.println("Àü°ø:");
-				sc.nextLine();
-				String insertMajor = sc.nextLine();
-				
-				System.out.println("ÇĞ³â:");
-				sc.nextInt();
-				int insertAddr = sc.nextInt();
-				
-				UnivDTO u_dto=new UnivDTO(insertName,insertTel,insertMajor,insertAddr);
-				univDAO.InsertUniv(u_dto);
-			}
-			else if(insertChoice==3){
-				System.out.println("ÀÌ¸§:");
-				sc.nextLine();
-				String insertName = sc.nextLine();
-				
-				System.out.println("ÀüÈ­¹øÈ£:");
-				sc.nextLine();
-				String insertTel = sc.nextLine();
-				
-				System.out.println("È¸»ç:");
-				sc.nextLine();
-				String insertCom = sc.nextLine();
-				
-				CompanyDTO c_dto = new CompanyDTO(insertName, insertTel, insertCom);
-				companyDAO.InsertCompanyl(c_dto);
-			
-			}
+		if (choice == a) {
+			System.out.println("ë°ì´í„° ì‚½ì…ì„ ì‹œì‘í•©ë‹ˆë‹¤.");
 
+			System.out.println("ì´ë¦„:");
+			String insertName = sc.next();
+			sc.nextLine();
 
-		
+			System.out.println("ì „í™”ë²ˆí˜¸:");
+			String insertTel = sc.next();
+			sc.nextLine();
+
+			System.out.println("ì£¼ì†Œ:");
+			String insertCom = sc.next();
+			sc.nextLine();
+
+			CompanyDTO c_dto = new CompanyDTO(insertName, insertTel, insertCom);
+			companyDAO.insertCompanyl(c_dto);
 
 		}
 
-		else if (choice == b) {// °Ë»ö
-
-			System.out.println("µ¥ÀÌÅÍ °Ë»öÀ» ½ÃÀÛÇÕ´Ï´Ù.");
-			System.out.println("ÀÌ¸§:");
+		else if (choice == b) {
+			System.out.println("ë°ì´í„° ê²€ìƒ‰ì„ ì‹œì‘í•©ë‹ˆë‹¤.");
+			System.out.println("ì…ë ¥:");
+			String searchName = sc.next();
 			sc.nextLine();
-			String searchName = sc.nextLine();
 
-			GeneralDTO ge = generalDAO.SelectGeneral(DBconnect.getInstance(), searchName);
-			CompanyDTO co = companyDAO.SelectCompany(DBconnect.getInstance(), searchName);
-			UnivDTO un = univDAO.SelectUniv(DBconnect.getInstance(), searchName);
-
-			if (ge != null) {
-				System.out.println("check");
-				System.out.println("ÀÌ¸§:" + ge.getG_name());
-				System.out.println("ÀüÈ­¹øÈ£:" + ge.getG_tel());
-				System.out.println("ÁÖ¼Ò:" + ge.getAddress());
-				System.out.println("µ¥ÀÌÅÍ °Ë»öÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
-				System.out.println("¼±ÅÃÇÏ¼¼¿ä...");
-			} else if (co != null) {
-				System.out.println("check2");
-				System.out.println("ÀÌ¸§:" + co.getCom_name());
-				System.out.println("ÀüÈ­¹øÈ£:" + co.getCom_tel());
-				System.out.println("È¸»ç:" + co.getCompany());
-				System.out.println("µ¥ÀÌÅÍ °Ë»öÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
-				System.out.println("¼±ÅÃÇÏ¼¼¿ä...");
-
-			} else if (un != null) {
-				System.out.println("check3");
-				System.out.println("name:" + un.getUniv_name());
-				System.out.println("phone:" + un.getUniv_tel());
-				System.out.println("major:" + un.getMajor());
-				System.out.println("year:" + un.getYear());
-				System.out.println("µ¥ÀÌÅÍ °Ë»öÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
-				System.out.println("¼±ÅÃÇÏ¼¼¿ä...");
+			CompanyDTO co = companyDAO.selectCompany(searchName);
+			if (co != null) {
+				System.out.println("ì´ë¦„:" + co.getCom_name());
+				System.out.println("ì „í™”ë²ˆí˜¸:" + co.getCom_tel());
+				System.out.println("íšŒì‚¬ëª…:" + co.getCompany());
+				System.out.println("ë°ì´í„°ë¥¼ ê²€ìƒ‰ ì™„ë£Œ í•˜ì˜€ìŠµë‹ˆë‹¤.");
+				System.out.println("ì…ë ¥í•˜ì„¸ìš”...");
 			}
 			return;
 
-		} else if (choice == c) {// »èÁ¦
-			System.out.println("µ¥ÀÌÅÍ »èÁ¦¸¦ ½ÃÀÛÇÕ´Ï´Ù.");
-			System.out.println("ÀÌ¸§:");
+		} else if (choice == c) {
+			System.out.println("ë°ì´í„° ì‚­ì œë¥¼ ì‹œì‘í•©ë‹ˆë‹¤.");
+			System.out.println("ì…ë ¥:");
 			sc.nextLine();
 			String deleteName = sc.nextLine();
 
-			generalDAO.DeleteGeneral(DBconnect.getInstance(), deleteName);
-			univDAO.DeleteUniv(DBconnect.getInstance(), deleteName);
-			companyDAO.DeleteCompany(DBconnect.getInstance(), deleteName);
-		
+			companyDAO.deleteCompany(deleteName);
 
-			System.out.println("¼±ÅÃÇÏ¼¼¿ä");
-		} else if (choice == d) {// Á¾·á
-			System.out.println("ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù");
+			System.out.println("í•´ë‹¹ ë°ì´í„°ê°€ ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
+		} else if (choice == d) {
+			System.out.println("ë°ì´í„° ìˆ˜ì •ì„ ì‹œì‘í•©ë‹ˆë‹¤.");
+			System.out.println("ìˆ˜ì •í•  ì‚¬ìš©ì ì…ë ¥:");
+			String searchName = sc.next();
+			sc.nextLine();
+			CompanyDTO co = companyDAO.selectCompany(searchName);
+			if (co != null) {
+				System.out.println("ì´ë¦„:" + co.getCom_name());
+				System.out.println("ì „í™”ë²ˆí˜¸:" + co.getCom_tel());
+				System.out.println("íšŒì‚¬ëª…:" + co.getCompany());
+				System.out.println("ìˆ˜ì •í•  ì‚¬ìš©ìë¥¼ ì°¾ì•˜ìŠµë‹ˆë‹¤.");
+				
+				System.out.println(co.getCom_name()+"ì˜ ìˆ˜ì •í•  ë²ˆí˜¸ ì…ë ¥:");
+				String updateTel=sc.next();
+				sc.nextLine();
+				
+				System.out.println(co.getCom_name()+"ì˜ ìˆ˜ì •í•  íšŒì‚¬ëª… ì…ë ¥:");
+				String updateCompany=sc.next();
+				sc.nextLine();
+				
+				co.setCom_tel(updateTel);
+				co.setCompany(updateCompany);
+				
+				companyDAO.updateCompany(co);
+				
+				System.out.println("ì‚¬ìš©ì ì •ë³´ë¥¼ ìˆ˜ì •í–ˆìŠµë‹ˆë‹¤.");
+			}else {
+				System.out.println("ì‚¬ìš©ìë¥¼ ì°¾ì§€ëª»í–ˆìŠµë‹ˆë‹¤.");
+			}
+		
+		}else if (choice == e) {
+			System.out.println("í”„ë¡œê·¸ë¨ì´ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 			System.exit(0);
 		}
 	}
-
 }
